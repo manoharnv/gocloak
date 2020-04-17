@@ -351,7 +351,14 @@ func (client *gocloak) RefreshToken(refreshToken, clientID, clientSecret, realm 
 		RefreshToken: &refreshToken,
 	})
 }
-
+func (client *gocloak) GetOfflineToken(refreshToken, clientID, clientSecret, realm string) (*JWT, error) {
+	return client.GetToken(realm, TokenOptions{
+		ClientID:     &clientID,
+		ClientSecret: &clientSecret,
+		GrantType:    StringP("offline_token"),
+		RefreshToken: &refreshToken,
+	})
+}
 // LoginAdmin performs a login with Admin client
 func (client *gocloak) LoginAdmin(username, password, realm string) (*JWT, error) {
 	return client.GetToken(realm, TokenOptions{
